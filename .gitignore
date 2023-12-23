@@ -1,0 +1,5 @@
+/node_modules
+.angular/
+.yarn/
+www/
+settings.json

@@ -1,0 +1,354 @@
+@import '@ionic/angular/css/core.css';
+@import '@ionic/angular/css/normalize.css';
+@import '@ionic/angular/css/structure.css';
+@import '@ionic/angular/css/typography.css';
+@import '@ionic/angular/css/display.css';
+@import '@ionic/angular/css/padding.css';
+@import '@ionic/angular/css/float-elements.css';
+@import '@ionic/angular/css/text-alignment.css';
+@import '@ionic/angular/css/text-transformation.css';
+@import '@ionic/angular/css/flex-utils.css';
+
+
+// include the ios theme
+$mbsc-ios-theme: true;
+$mbsc-material-theme: true;
+$mbsc-mobiscroll-theme: true;
+$mbsc-windows-theme: true;
+
+// include the components:
+$mbsc-datepicker: true;
+$mbsc-eventcalendar: true;
+$mbsc-forms: true;
+$mbsc-grid-layout: true;
+$mbsc-popup: true;
+$mbsc-select: true;
+
+@import '@mobiscroll/angular-ivy/dist/css/mobiscroll.modular.scss';
+
+
+// order the three types of mbsc eventcal views we use on the bookings page so they always appear in the right order
+.mbsc-schedule-wrapper {
+  order: 1;
+  height: 50%;
+};
+.mbsc-timeline {
+  order: 2;
+  height: 50%
+};
+.mbsc-event-list {
+  order: 3;
+  // TODO: only apply this is mbsc-timeline & mbsc-schedule-wrapper are not visible
+  height: 50%;
+};
+
+mbsc-eventcalendar.mbsc-eventcalendar-style {
+
+  div.mbsc-calendar-header {
+    margin-top: -1px;
+    height: 32px;
+
+    // inner wrapper around "< month >" box at the top of the cal
+    div.mbsc-calendar-controls {
+      height: 24px;
+      min-height: 24px;
+      padding: 0;
+
+      // immediately inner div child
+      &>div {
+        height: 24px;
+      }
+
+    }
+
+  }
+
+  mbsc-calendar-prev,mbsc-calendar-next {
+    font-size: 14px;
+    display: grid;
+    place-items: center;
+
+    mbsc-button {
+      height: 24px;
+      padding: 0;
+    }
+  }
+
+  // in the mbsc-bookings-page-eventcalendar there is a 'headerTemplate' with a conditionally added '.hide-mbsc-eventcalendar-controls' class.
+  // ... if the class is added, then the css selector below is triggered, which will hide the parent wrapper
+  div.mbsc-calendar-wrapper:has(div.mbsc-calendar-header div.hide-mbsc-eventcalendar-controls) {
+    display: none;
+  };
+
+  div.mbsc-calendar-wrapper {
+    @apply tw-scrollbar-hide;
+  }
+
+  mbsc-calendar-view {
+    background-color: white !important;
+  }
+
+  // calendar date cells in past
+  mbsc-calendar-day.mbsc-calendar-cell.mbsc-disabled {
+    background-color: transparent !important;
+    color: light-blue !important;
+    opacity: 0.3 !important;
+  }
+  mbsc-calendar-day.mbsc-disabled .mbsc-calendar-cell-text {
+    opacity: 1 !important;
+  }
+
+  .mbsc-schedule-time-cont-inner {
+    z-index: 0;
+  }
+
+  // calendar date celss in next month
+  .mbsc-calendar-day-outer .mbsc-calendar-day-text {
+    opacity: 1 !important;
+    color: light-blue !important;
+  }
+/* mbsc-calendar-year  mbsc-calendar-slide mbsc-ios mbsc-ltr */
+  // calendar change-month buttons
+  .mbsc-ios.mbsc-button.mbsc-disabled {
+    opacity: 1 !important;
+    color: light-blue !important;
+    opacity: 0.3 !important;
+  }
+
+  div.mbsc-calendar-wrapper {
+    margin-left: 8px;
+    margin-right: 8px;
+  }
+
+  // day header in list view
+  mbsc-list-header {
+    font-size: medium !important;
+    font-weight: 500 !important;
+    padding-left: 0px !important;
+    padding-top: 0 !important;
+  }
+
+  mbsc-scrollview-base.mbsc-calendar-scroll-wrapper {
+    margin-bottom: 17px;
+  }
+
+  div.mbsc-event-list:has(ul.mbsc-event-list-day) {
+    @apply tw-scrollbar-hide;
+    overflow: scroll !important;
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+    padding-top: 24px !important;
+    background: white;
+    border-radius: 32px 32px 0 0;
+  };
+
+  // individual event-box in list view
+  mbsc-event-list-item {
+    @apply tw-scrollbar-hide;
+    border: none !important;
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+    padding-top: 0 !important;
+    padding-bottom: 16px !important;
+  }
+
+  div.mbsc-calendar-today {
+    border: 1px solid grey;
+    padding: 1px;
+  }
+
+  div.mbsc-event-group mbsc-event-list-item:last-child {
+    padding-bottom: 24px !important;
+  };
+
+  .mbsc-ios.mbsc-list-item {
+    @apply tw-py-2;
+  }
+
+  .mbsc-calendar-cell-text[aria-pressed="true"] {
+    background-color: light-blue !important;
+  }
+
+  mbsc-schedule-event {
+    .mbsc-schedule-event-title {
+      color: light-blue !important;
+    }
+  }
+
+  // order the three types of mbsc eventcal views we use on the bookings page so they always appear in the right order :)
+  .mbsc-schedule-wrapper {
+    order: 1;
+    height: 50%;
+  };
+  .mbsc-timeline {
+    order: 2;
+    height: 50%
+  };
+  .mbsc-event-list {
+    order: 3;
+    // TODO: only apply this is mbsc-timeline & mbsc-schedule-wrapper are not visible
+    height: 50%;
+  };
+
+}
+
+
+mbsc-eventcalendar.mbsc-eventcalendar-style mbsc-scheduler {
+
+  height: 1600px;
+
+  // wrapper around all the days of the week && all the date numbers
+  mbsc-week-day.mbsc-schedule-header-item {
+    padding: 0;
+  }
+
+  // wrapper arround the "all day" row above all the time ranges
+  div.mbsc-schedule-all-day-cont {
+    display: none;
+  }
+
+  // wrapper around each individual day of the week (Su, Mo, Tu, etc.)
+  div.mbsc-schedule-header-dayname {
+    font-weight: 300;
+    font-size: 12px;
+    height: 20px
+  }
+
+  // wrapper around each individual date number (1, 2, 3, etc.)
+  div.mbsc-schedule-header-day {
+    font-size: 12px;
+    line-height: 20px;
+    font-weight: 200;
+  }
+
+  // wrapper around the specific date number representing today's date
+  div.mbsc-schedule-header-day-today.mbsc-selected {
+    color: white;
+    font-weight: 300;
+  }
+
+  // wrapper arround the "all day" row above all the time ranges
+  div.mbsc-schedule-all-day-cont {
+    display: none;
+  }
+
+   // wrapper around the time range row (the left most col)
+  div.mbsc-schedule-time-col {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    width: 30px;
+    margin-right: 4px;
+  }
+
+  // wrapper around each time range row in the time range col (the left most col)
+  div.mbsc-schedule-time-wrapper {
+    width: 30px;
+    max-height: 5.555555%;
+    height: 5.555555%;
+  }
+
+  // the _inner_ wrapper around each time range row in the time range col (the left most col)
+  div.mbsc-schedule-time {
+    color: light-blue;
+    text-align: left;
+    width: 30px;
+    padding: 0;
+    padding-left: 2px;
+  }
+
+  mbsc-time-indicator {
+
+    // the wrapper around the horizontal current time indicator
+    div.mbsc-schedule-time-indicator-time {
+      color: white;
+      font-weight: 400;
+      border-radius: 4px;
+      padding-left: 4px;
+      padding-right: 4px;
+      //  our dark primary in rgb
+      background: rgba(35,12,82,0.4)
+    }
+
+    // the long thin horizontal current time indicator line
+    div.mbsc-schedule-time-indicator-x {
+      //  our dark primary in rgb
+      border-color: rgba(35,12,82,0.4)
+    }
+  }
+
+  // wrapper around each col wrapping all time range rows on a day,  each day of the week
+  div.mbsc-schedule-column {
+    border-color: grey;
+    width: unset;
+  }
+
+  // an overlay over a colum to denote slots that are in the past (i.e. greyed out b/c they are not selectable)
+  div.mbsc-ios.mbsc-schedule-invalid {
+    background-color: rgba(26, 26, 26, 0.2);
+    border-radius: 2px;
+  }
+
+  // wrapper around all events overlaid within each column
+  div.mbsc-schedule-events.mbsc-ltr {
+    right: 0.25em;
+  }
+
+  // wrapper around each row within each col wrapping all time range rows on a day
+  div.mbsc-schedule-item {
+    border-color: grey;
+    max-height: 5.555555%;
+    height: 5.555555%;
+  }
+
+  // wrapper around the time range text within each calendar event
+  div.mbsc-schedule-event-range {
+    display: none;
+  }
+
+  div.mbsc-schedule-event-inner {
+    padding-left: 4px;
+    padding-right: 2px;
+    margin-left: 2px;
+    margin-right: 1px;
+  }
+
+  // when you click on an mbsc-schedule-event-title, it opens a popup with this class on the outer div wrapper
+  .mbsc-calendar-popup {
+
+    .mbsc-popup-anchored {
+      border-radius: 8px;
+
+      .mbsc-popup-arrow {
+        background-color: white;
+      }
+
+      mbsc-event-list-item {
+        padding-bottom: 8px !important;
+
+        .mbsc-event-content {
+          display: none;
+        }
+
+        .mbsc-event-time {
+          display: flex;
+          justify-content: center;
+          width: 100%;
+
+          .mbsc-event-start {
+            margin-right: 16px;
+          }
+
+          .mbsc-event-end {
+
+          }
+        }
+      }
+
+      mbsc-list:first-child {
+        padding-top: 8px !important;
+      };
+    }
+
+  }
+
+}

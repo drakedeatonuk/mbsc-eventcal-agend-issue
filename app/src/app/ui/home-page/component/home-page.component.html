@@ -1,0 +1,87 @@
+<ion-content [forceOverscroll]="false" style="height: 100%;">
+  <ion-grid style="height: 100%; background: lightgoldenrodyellow;">
+    <ion-row>
+      <ion-col>
+        <ion-segment #ionSegment value="month" mode="ios">
+          <ion-segment-button value="month">
+            <ion-label>Month</ion-label>
+          </ion-segment-button>
+          <ion-segment-button value="week">
+            <ion-label>Week</ion-label>
+          </ion-segment-button>
+          <ion-segment-button value="list">
+            <ion-label>List</ion-label>
+          </ion-segment-button>
+        </ion-segment>
+      </ion-col>
+    </ion-row>
+    <ion-row style="height: 600px;">
+      <ion-col style="height: 100%;">
+        <mbsc-eventcalendar #eventCalEl [(selectedDate)]="selectedDate" [clickToCreate]="false" [data]="entries"
+          [dragToCreate]="false" [dragToMove]="false" [dragToResize]="false" [eventDelete]="false" [firstDay]="1"
+          [max]="maxDate" [min]="minDate" [touchUi]="true" style="height: 100%;" class="mbsc-eventcalendar-style"
+          [view]="ionSegment.ionChange | async | selectMbscEventalendarView" display="inline" noEventsText=""
+          theme="ios" themeVariant="light" [agendaTemplate]="agendaTemplate" (onEventClick)="onEventClick($event)">
+          <ng-template #agendaTemplate let-data>
+            <ul *ngFor="let day of data; trackBy: getDayKey" mbsc-event-list-day style="padding: 0;"
+              [timestamp]="day.timestamp">
+              <h4>{{day.timestamp | date:'d/M/yy' }}</h4>
+              <app-agenda-slot *ngFor="let entry of day.events; trackBy: getEventKey" [data]="entry.original">
+              </app-agenda-slot>
+            </ul>
+          </ng-template>
+        </mbsc-eventcalendar>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+
+<!-- 
+<mbsc-eventcalendar 
+  [clickToCreate]="false" [dragToCreate]="false" [dragToMove]="false" [dragToResize]="false" [eventDelete]="false"
+  timeFormat="H:mm" [(selectedDate)]="selectedDate" [max]="maxDate" [firstDay]="1" [data]="filteredBookings"
+  display="inline" [touchUi]="true" noEventsText="" [headerTemplate]="headerTemplate"
+  [colors]="offeringHoursOccurrences" class="mbsc-bookings-page-eventcalendar" [agendaTemplate]="agendaTemplate"
+  (onEventClick)="onEventClick($event)" [scheduleEventTemplate]="scheduleEventTemplate"
+  (onPageChange)="onPageChange($event)">
+  <ng-template #headerTemplate>
+    <div class="tw-w-full tw-flex tw-justify-between"
+      [ngClass]="view === 'list' ? 'hide-mbsc-eventcalendar-controls' : ''">
+      <mbsc-calendar-prev></mbsc-calendar-prev>
+      <mbsc-calendar-nav class="tw-flex tw-items-center tw-justify-center"></mbsc-calendar-nav>
+      <mbsc-calendar-next></mbsc-calendar-next>
+    </div>
+  </ng-template>
+  <ng-template #scheduleEventTemplate let-data>
+    <app-bookings-page-schedule-event-template [mbscEvent]="data.original | fromICalendarDataToMbscBookingOccurrence">
+    </app-bookings-page-schedule-event-template>
+  </ng-template>
+  <ng-template #agendaTemplate let-data>
+    <ng-container *ngIf="isLoading">
+      <ul class="mbsc-event-list-day">
+        <app-bookings-page-calendar-agenda-skeleton-slot></app-bookings-page-calendar-agenda-skeleton-slot>
+      </ul>
+    </ng-container>
+    <ng-container *ngIf="!isLoading">
+      <ul *ngFor="let day of data; let isLastDay = last; let isFirstSlot = first; trackBy: getDayKey"
+        mbsc-event-list-day class="mbsc-event-list-day tw-pt-4" [timestamp]="day.timestamp"
+        [ngClass]="{'-tw-mt-6': isFirstSlot, 'tw-pt-6': isFirstSlot}">
+        <h4 class="tw-mb-2 tw-font-semibold">
+          {{ view === 'list' ? (day.timestamp | timestampToMonth)+',' : ''}} {{day.timestamp | timestampToDay }} {{
+          day.timestamp | timestampToDayOfMonth | prettifyDateNumber }}
+        </h4>
+        <app-bookings-page-calendar-agenda-slot
+          *ngFor="let entry of day.events; let isLastSlot = last; trackBy: getEventKey" [id]="entry.uuid"
+          class="tw-w-full tw-mb-2 tw-block" [entry]="entry.original | fromICalendarDataToMbscBookingOccurrence"
+          [isLastSlot]="isLastSlot" [isLastDay]="isLastDay" [timestamp]="day.timestamp" [displayTo]="(entry.original | fromICalendarDataToMbscBookingOccurrence)
+            .occurrence.booking.provider.userId === userStore.id ? 'provider' : 'user'">
+        </app-bookings-page-calendar-agenda-slot>
+      </ul>
+      <ul *ngIf="!data?.length" class="tw-wh-full" mbsc-event-list-day>
+        <div class="tw-wh-full tw-bg-white tw-rounded-tr-[32px] tw-rounded-tl-[32px]">
+        </div>
+      </ul>
+    </ng-container>
+  </ng-template>
+</mbsc-eventcalendar>
+-->
